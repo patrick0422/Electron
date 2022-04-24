@@ -1,6 +1,8 @@
 // Modules
 const {app, BrowserWindow} = require('electron')
 
+console.log('Checking is App ready: ' + app.isReady())
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
@@ -32,11 +34,18 @@ function createWindow () {
 }
 
 // Electron `app` is ready
-app.on('ready', createWindow)
+app.on('ready', () => {
+  console.log('App is Ready!')
+  createWindow()
+})
 
 // Quit when all windows are closed - (Not macOS - Darwin)
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit()
+})
+
+app.on('before-quit', () => {
+	console.log('App is Quitting!')
 })
 
 // When app icon is clicked and app is running, (macOS) recreate the BrowserWindow
